@@ -39,6 +39,13 @@ class FacesPlugin(CommandPlugin):
 
     async def process_message(self, msg):
         command, text = self.parse_message(msg)
+        if not text or text not in self.filters.keys():
+            return await msg.answer('Список доступных фильтров:\n' + ", ".join(self.names))
+
+        if not any(k.endswith('_type') and v == "photo"
+            for k, v in msg.brief_attaches.items()):
+                return await msg.answer('Вы не прислали фото!')
+
         photo_url = None
         for a in await msg.get_full_attaches():
             if a.type == "photo" and a.url:
