@@ -39,7 +39,7 @@ class FacesPlugin(CommandPlugin):
 
     async def process_message(self, msg):
         command, text = self.parse_message(msg)
-        if not text or text not in self.filters.keys():
+        if not text or text not in self.names.keys():
             return await msg.answer('Список доступных фильтров:\n' + ", ".join(self.names))
 
         if not any(k.endswith('_type') and v == "photo"
